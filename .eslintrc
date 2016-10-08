@@ -1,0 +1,21 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "globals": {
+    "__DEV__": true,
+    "describe": true,
+    "it": true,
+    "beforeEach": true
+  },
+  "rules": {
+    "react/jsx-quotes": 0,
+    "comma-dangle": 0,
+    "jsx-quotes": [ 2, "prefer-double" ],
+    "no-param-reassign": [ 2, { "props": false } ],
+    "import/no-extraneous-dependencies": [2, { "devDependencies": true } ]
+  }
+}

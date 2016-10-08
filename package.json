@@ -1,0 +1,39 @@
+{
+  "name": "openraildata-dawrin",
+  "version": "0.1.0",
+  "description": "A node package for accessing National Rail DARWIN data",
+  "license": "MIT",
+  "keywords": [
+    "openraildata",
+    "open",
+    "rail",
+    "National",
+    "trust"
+  ],
+  "main": "darwin.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "author": {
+    "name": "Steven Collins",
+    "git": "https://github.com/divergentlepton"
+  },
+  "dependencies": {
+    "stompit": "^0.23.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/divergentlepton/openraildata-darwin"
+  },
+  "bugs": {
+    "url": "https://github.com/divergentlepton/openraildata-darwin/issues"
+  },
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "dotenv": "^2.0.0",
+    "mocha": "^3.1.0"
+  }
+}
