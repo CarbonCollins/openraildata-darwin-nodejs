@@ -3,7 +3,7 @@
 const expect = require('chai').expect;
 const Darwin = require('../darwin');
 
-require('dotenv').config();
+//require('dotenv').config();
 
 describe('openraildata-darwin tests', () => {
   describe('Environment check', () => {
