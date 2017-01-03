@@ -12,7 +12,7 @@
   ],
   "main": "darwin.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "./node_modules/.bin/mocha ./tests/client.js --reporter spec"
   },
   "author": {
     "name": "Steven Collins",
