@@ -2,14 +2,13 @@
  * openraildata-darwin - Connects to National Rails DARWIN system to provide real-time
  * information such as train prediction data within the UK.
  *
- * Author: Steven Collins (https://github.com/divergentlepton)
+ * Author: Steven Collins (https://github.com/CarbonCollins)
  *
  */
 
 'use strict';
 
 const stompit = require('stompit');
-
 
 class darwinClient {
   constructor() {
@@ -42,7 +41,7 @@ class darwinClient {
         callback(null);
       });
     } else {
-      callback({ error: 'STOMP client was already initialised' });
+      callback(new Error('STOMP client was already initialised'));
     }
   }
 
@@ -95,7 +94,7 @@ class darwinClient {
         });
       });
     } else {
-      callback({ error: 'Unable to subscribe. Not connected to the DARWIN server.' });
+      callback(new Error('Unable to subscribe. Not connected to the DARWIN server.'));
     }
   }
 }
