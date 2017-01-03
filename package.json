@@ -1,6 +1,6 @@
 {
   "name": "openraildata-dawrin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A node package for accessing National Rail DARWIN data",
   "license": "MIT",
   "keywords": [
@@ -16,17 +16,17 @@
   },
   "author": {
     "name": "Steven Collins",
-    "git": "https://github.com/divergentlepton"
+    "git": "https://github.com/CarbonCollins"
   },
   "dependencies": {
     "stompit": "^0.23.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/divergentlepton/openraildata-darwin"
+    "url": "https://github.com/CarbonCollins/openraildata-darwin"
   },
   "bugs": {
-    "url": "https://github.com/divergentlepton/openraildata-darwin/issues"
+    "url": "https://github.com/CarbonCollins/openraildata-darwin/issues"
   },
   "engines": {
     "node": ">= 0.10"
