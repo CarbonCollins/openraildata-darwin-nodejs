@@ -7,9 +7,9 @@ require('dotenv').config();
 
 describe('openraildata-darwin tests', () => {
   describe('Environment check', () => {
-    it('Expect a valid "env.queue" variable', () => {
-      expect(process.env.queue).to.be.an('string', 'Resultant should be an string');
-      expect(process.env.queue).to.not.be.equal('', 'should not be an empty string');
+    it('Expect a valid "QUEUE" enviroment variable', () => {
+      expect(process.env.QUEUE).to.be.an('string', 'QUEUE env should be an string');
+      expect(process.env.QUEUE).to.not.be.equal('', 'QUEUE env should not be an empty string');
     });
   });
   describe('Create a new instance of darwin client', () => {
