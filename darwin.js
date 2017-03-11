@@ -9,6 +9,7 @@
 'use strict';
 
 const stompit = require('stompit');
+const zlib = require('zlib');
 
 class darwinClient {
   constructor() {
@@ -83,16 +84,40 @@ class darwinClient {
    */
   subscribe(queueName, callback) {
     if (this.client !== null) {
-      const subHeaders = {
-        destination: `/queue/${queueName}`,
-        ack: 'auto'
-      };
-      this.client.subscribe(subHeaders, (err, message) => {
-        // needs to support gzip data
-        message.readString('utf-8', (er, body) => {
-          callback(er, JSON.parse(body));
+      if (typeof queueName === 'string' && queueName !== '') {
+        const subHeaders = {
+          destination: `/queue/${queueName}`,
+          ack: 'auto'
+        };
+        this.client.subscribe(subHeaders, (err, message) => {
+          message.on('readable', () => {
+            let chunk;
+            while (null !== (chunk = message.read())) {
+              zlib.gunzip(chunk, (error, response) => {
+                if (error) {
+                  console.log(message.headers);
+                  console.log(error);
+                } else {
+                  console.log(message.headers.FilterHeaderLevel);
+                  console.log(response.toString());
+                }
+              });
+            }
+          });
+
+          message.on('end', () => {
+            this.client.ack(message);
+          });
+
+          // needs to support gzip data
+          // message.readString('utf-8', (er, body) => {
+          //   console.log(body);
+          //   callback(er, JSON.parse(body));
+          // });
         });
-      });
+      } else {
+        callback(new Error('Queue name must be a string and not empty'));
+      }
     } else {
       callback(new Error('Unable to subscribe. Not connected to the DARWIN server.'));
     }
@@ -100,3 +125,48 @@ class darwinClient {
 }
 
 module.exports = darwinClient;
+
+
+
+
+/*
+stompit.connect(connectOptions, function(error, client) {
+
+    if(error){
+        console.log('Unable to connect: ' + error.message);
+        return;
+    }
+
+    const subscribeParams = {
+        'destination': '/queue/QUEUE_NAME_HERE',
+        'ack': 'client-individual'
+    };
+
+
+    client.subscribe(subscribeParams, function(error, message){
+
+        const read = function(){
+            let chunk;
+            while(null !== (chunk = message.read())){
+                zlib.gunzip(chunk, function (error, response) {
+
+                    if (error) {
+                        console.log(message.headers)
+                        console.log(error)
+                    } else {
+                        console.log(message.headers.FilterHeaderLevel)
+                        console.log(response.toString());
+                    }
+                });
+            }
+        };
+
+        message.on('readable', read);
+
+        message.on('end', function(){
+            client.ack(message);
+        });
+    });
+});
+
+*/

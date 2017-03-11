@@ -22,24 +22,47 @@ describe('openraildata-darwin tests', () => {
     });
   });
 
-  describe('Connect to Darwin Server', () => {
-    const testDarwin = new Darwin();
-    it('Expect a valid darwin connection', (done) => {
-      expect(testDarwin).to.be.an('object', 'Resultant should be an object');
-      testDarwin.connect((err) => {
-        expect(err).to.be.equal(null, 'No error should be returned on connection');
-        expect(testDarwin.client).to.not.be.equal(null, 'Client should not be null');
-        done();
-      });
+  describe('Darwin Class tests', () => {
+    const darwinConTest = new Darwin();
+    describe('Connect to Darwin Server', () => {
+      it('Expect a valid darwin connection', (done) => {
+        expect(darwinConTest).to.be.an('object', 'Resultant should be an object');
+        darwinConTest.connect((err) => {
+          expect(err).to.be.equal(null, 'No error should be returned on connection');
+          expect(darwinConTest.client).to.not.be.equal(null, 'Client should not be null');
+          done();
+        });
+      }).timeout(10000);
+      it('Expect an invalid darwin connection', (done) => {
+        expect(darwinConTest).to.be.an('object', 'Resultant should be an object');
+        expect(darwinConTest.client).to.not.be.equal(null, 'Client should not be null');
+        darwinConTest.connect((err) => {
+          expect(err instanceof Error).to.be.equal(true, 'An Error object should be returned');
+          expect(darwinConTest.client).to.not.be.equal(null, 'Client should not be null');
+          done();
+        });
+      }).timeout(10000);
     });
-    it('Expect an invalid darwin connection', (done) => {
-      expect(testDarwin).to.be.an('object', 'Resultant should be an object');
-      expect(testDarwin.client).to.not.be.equal(null, 'Client should not be null');
-      testDarwin.connect((err) => {
-        expect(err instanceof Error).to.be.equal(true, 'An Error object should be returned');
-        expect(testDarwin.client).to.not.be.equal(null, 'Client should not be null');
-        done();
-      });
+    describe('Subscribe to queue', () => {
+      const darwinnonConTest = new Darwin();
+      it('Expect an invalid subscription attempt (invalid client)', (done) => {
+        darwinnonConTest.subscribe(process.env.QUEUE, (err) => {
+          expect(err instanceof Error).to.be.equal(true, 'An Error object should be returned');
+          done();
+        });
+      }).timeout(10000);
+      it('Expect an invalid subscription attempt (empty queue name)', (done) => {
+        darwinConTest.subscribe('', (err) => {
+          expect(err instanceof Error).to.be.equal(true, 'An Error object should be returned');
+          done();
+        });
+      }).timeout(10000);
+      it('Expect a valid subscription attempt', (done) => {
+        darwinConTest.subscribe(process.env.QUEUE, (err) => {
+          expect(err instanceof Error).to.be.equal(true, 'An Error object should be returned');
+          done();
+        });
+      }).timeout(10000);
     });
   });
 });
