@@ -13,20 +13,27 @@ const zlib = require('zlib');
 const EventEmitter = require('events');
 const parser = require('xml2json');
 
-class DarwinEvents extends EventEmitter {}
-const darwinEvents = new DarwinEvents();
-
 /**
  * @method replaceKeys
- * @param {object} jsonObj 
+ * @param {object} jsonObj
  */
 function replaceKeys(jsonObj) {
   let jsonString = JSON.stringify(jsonObj);
   jsonString = jsonString
-      .replace(/\"ns3\:Location\"/g, '\"locations\"')
-      .replace(/\"ns\d\:/g, '\"');
+      .replace(/"ns3:Location"/g, '"locations"')
+      .replace(/"ns\d:/g, '"');
   return JSON.parse(jsonString);
 }
+/**
+ * @class stompClient
+ */
+class StompClient extends EventEmitter {
+  constructor() {
+    this.
+  }
+}
+
+const darwinEvents = new DarwinEvents();
 
 /**
  * @class darwinClient
@@ -35,7 +42,7 @@ function replaceKeys(jsonObj) {
 class darwinClient {
   /**
    * @constructor
-   * @param {boolean} [convertToJSON=true] - Should the xml messages be converted into JSON on 'message' events
+   * @param {boolean} [convertToJSON=true] - convery xml messages into JSON on 'message' events
    */
   constructor(convertToJSON) {
     this.convertToJson = convertToJSON || true;
@@ -54,24 +61,24 @@ class darwinClient {
 
   /**
    * Connects to the DARWIN server.
-   * 
+   *
    * @method connect
    * @param {connectCallback} callback - The callback that handles the response.
    * @return undefined
    */
   connect(callback) {
-    const cb = (typeof callback == 'function') ? callback : (() => {});
+    const cb = (typeof callback === 'function') ? callback : (() => {});
     if (this.stompClient === null) {
       stompit.connect(this.stompCredentials, (err, stompClient) => {
         if (err) {
-          cb(err);
+          cb(err, null);
           return;
         }
         this.stompClient = stompClient;
         cb(null, darwinEvents);
       });
     } else {
-      cb(new Error('STOMP client was already initialised'));
+      cb(new Error('STOMP client was already initialised'), null);
     }
   }
 
@@ -84,8 +91,8 @@ class darwinClient {
    * @return undefined
    */
   disconnect(timeout, callback) {
-    const cb = ((typeof timeout == 'function') ? timeout : callback) || (() => {});
-    const time = ((typeof timeout == 'function') ? 0 : timeout) || 0;
+    const cb = ((typeof timeout === 'function') ? timeout : callback) || (() => {});
+    const time = ((typeof timeout === 'function') ? 0 : timeout) || 0;
     if (this.stompClient !== null) {
       setTimeout(() => {
         this.stompClient.disconnect((err) => {
@@ -104,7 +111,7 @@ class darwinClient {
 
   /**
    * Subscribes to a queue as long as the class is connected to the DARWIN server.
-   * 
+   *
    * @method subscribe
    * @param {string} queueName - The topic name to connect to (this is then prepended to /queue/).
    * @return undefined
@@ -123,34 +130,33 @@ class darwinClient {
             const messageStream = zlib.createGunzip();
             messageStream.setEncoding('utf8');
 
-            messageStream.on('data', function(data) {
-                buffer.push(data);
+            messageStream.on('data', (data) => {
+              buffer.push(data);
             });
-            
-            messageStream.on("end", function() {
-              const messageXML = buffer.join("");
-              const messageJSON = replaceKeys(parser.toJson(messageXML, { object: true, coerce: true, reversible: false }));
+
+            messageStream.on('end', () => {
+              const messageXML = buffer.join('');
+              const messageJSON = replaceKeys(parser.toJson(messageXML, {
+                object: true,
+                coerce: true,
+                reversible: false
+              }));
               darwinEvents.emit('message', (convertToJSON) ? messageJSON : messageXML);
 
-              // switch (messageJSON.Pport.uR.updateOrigin) {
-              //   case 'Darwin':
-                  if (messageJSON.Pport.uR.TS) {
-                    darwinEvents.emit('status', {
-                      status: messageJSON.Pport.uR.TS,
-                      timestamp: messageJSON.Pport.ts
-                    });
-                  } else if (messageJSON.Pport.uR.schedule) {
-                    darwinEvents.emit('schedule', {
-                      schedule: messageJSON.Pport.uR.schedule,
-                      timestamp: messageJSON.Pport.ts
-                    });
-                  }
-              //     break;
-              //   default:
-              // }
+              if (messageJSON.Pport.uR.TS) {
+                darwinEvents.emit('status', {
+                  status: messageJSON.Pport.uR.TS,
+                  timestamp: messageJSON.Pport.ts
+                });
+              } else if (messageJSON.Pport.uR.schedule) {
+                darwinEvents.emit('schedule', {
+                  schedule: messageJSON.Pport.uR.schedule,
+                  timestamp: messageJSON.Pport.ts
+                });
+              }
             });
-            
-            messageStream.on("error", function(error) {
+
+            messageStream.on('error', (error) => {
               if (buffer.length > 0) { // check if empty message
                 darwinEvents.emit('error', error, message.headers);
               }
