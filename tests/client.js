@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('chai').expect;
-const Darwin = require('../darwin');
+const Darwin = require('../index');
 
 describe('openraildata-darwin tests', () => {
   describe('Environment check', () => {

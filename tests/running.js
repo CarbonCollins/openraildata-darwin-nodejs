@@ -1,4 +1,4 @@
-const Darwin = require('../darwin');
+const Darwin = require('../index');
 
 const darwin = new Darwin();
 

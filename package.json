@@ -1,16 +1,18 @@
 {
-  "name": "openraildata-dawrin",
-  "version": "0.1.3",
-  "description": "A node package for accessing National Rail DARWIN data",
+  "name": "openraildata-pushport",
+  "version": "0.2",
+  "description": "A node package for accessing National Rail Push Port data over STOMP to provide",
   "license": "MIT",
   "keywords": [
     "openraildata",
     "open",
     "rail",
-    "National",
-    "trust"
+    "national",
+    "push",
+    "port",
+    "stomp"
   ],
-  "main": "darwin.js",
+  "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha ./tests/client.js --reporter spec"
   },
@@ -24,10 +26,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CarbonCollins/openraildata-darwin"
+    "url": "https://github.com/CarbonCollins/openraildata-pushport"
   },
   "bugs": {
-    "url": "https://github.com/CarbonCollins/openraildata-darwin/issues"
+    "url": "https://github.com/CarbonCollins/openraildata-pushport/issues"
   },
   "engines": {
     "node": ">= 0.10"

@@ -1,5 +1,5 @@
 /**
- * openraildata-darwin - Connects to National Rails DARWIN system to provide real-time
+ * openraildata-pushport - Connects to National Rails Push Port data system to provide real-time
  * information such as train prediction data within the UK.
  *
  * Author: Steven Collins (https://github.com/CarbonCollins)
