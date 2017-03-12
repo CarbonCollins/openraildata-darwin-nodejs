@@ -71,7 +71,7 @@ describe('openraildata-pushport test suite', () => {
         }).catch((err) => {
           done(err);
         });
-      });
+      }).timeout(10000);
     });
     describe('Disconnect tests', () => {
       it('Expect disconnection from PushPort server', (done) => {
@@ -83,7 +83,7 @@ describe('openraildata-pushport test suite', () => {
         }).catch((err) => {
           done(err);
         });
-      });
+      }).timeout(10000);
       it('Expect disconnection from PushPort server (already disconnected)', (done) => {
         expect(stompClient.stompClient).to.not.be.an('object', 'PushPort client should not already be connected for this test');
         stompClient.disconnect().then((action) => {
@@ -93,7 +93,7 @@ describe('openraildata-pushport test suite', () => {
         }).catch((err) => {
           done(err);
         });
-      });
+      }).timeout(10000);
     });
   });
 
@@ -137,7 +137,7 @@ describe('openraildata-pushport test suite', () => {
         }).catch((err) => {
           done(err);
         });
-      });
+      }).timeout(10000);
       it('Expect server to disconnect from PushPort server (already disconnected)', (done) => {
         expect(pushPortConTestVal.client).to.be.equal(null, 'PushPort client should already be connected for this test');
         pushPortConTestVal.disconnect().then((action) => {
@@ -147,7 +147,7 @@ describe('openraildata-pushport test suite', () => {
         }).catch((err) => {
           done(err);
         });
-      });
+      }).timeout(10000);
     });
   });
 });
