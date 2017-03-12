@@ -49,21 +49,27 @@ function replaceKeys(jsonObj) {
  * @return {object} A message formatted into a common format and type determined
  */
 function formatMessage(Obj) {
-  const formatedObj = {
-    type: 'unknown',
-    message: {},
-    timestamp: Obj.Pport.ts || new Date().getTime()
-  };
+  if (Obj && Obj.Pport) {
+    const formatedObj = {
+      type: 'unknown',
+      message: {},
+      timestamp: Obj.Pport.ts || new Date().getTime()
+    };
 
-  if (Obj.Pport.uR.TS) {
-    formatedObj.type = 'trainStatus';
-    formatedObj.message = Obj.Pport.uR.TS || {};
-  } else if (Obj.Pport.uR.schedule) {
-    formatedObj.type = 'schedule';
-    formatedObj.message = Obj.Pport.uR.schedule || {};
+    if (Obj.Pport.uR.TS) {
+      formatedObj.type = 'trainStatus';
+      formatedObj.message = Obj.Pport.uR.TS || {};
+    } else if (Obj.Pport.uR.schedule) {
+      formatedObj.type = 'schedule';
+      formatedObj.message = Obj.Pport.uR.schedule || {};
+    }
+    return formatedObj;
   }
-
-  return formatedObj;
+  // If message is incorrect then return base JSON
+  return {
+    type: 'unknown',
+    message: Obj
+  };
 }
 
 /**
