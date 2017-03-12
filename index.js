@@ -33,6 +33,7 @@ const credentials = {
 /**
  * @method replaceKeys
  * @param {object} jsonObj
+ * @return {object} An object with 'ns0:' tags removed from key names and some renamed.
  */
 function replaceKeys(jsonObj) {
   let jsonString = JSON.stringify(jsonObj);
@@ -40,6 +41,29 @@ function replaceKeys(jsonObj) {
       .replace(/"ns3:Location"/g, '"locations"')
       .replace(/"ns\d:/g, '"');
   return JSON.parse(jsonString);
+}
+
+/**
+ * @method formatMessage
+ * @param {object} Obj
+ * @return {object} A message formatted into a common format and type determined
+ */
+function formatMessage(Obj) {
+  const formatedObj = {
+    type: 'unknown',
+    message: {},
+    timestamp: Obj.Pport.ts
+  };
+
+  if (Obj.Pport.uR.TS) {
+    formatedObj.type = 'trainStatus';
+    formatedObj.message = Obj.Pport.uR.TS;
+  } else if (Obj.Pport.uR.schedule) {
+    formatedObj.type = 'schedule';
+    formatedObj.message = Obj.Pport.uR.schedule;
+  }
+
+  return formatedObj;
 }
 
 /**
@@ -121,24 +145,14 @@ class StompClient extends EventEmitter {
 
                 messageStream.on('end', () => {
                   const messageXML = buffer.join('');
-                  const messageJSON = replaceKeys(parser.toJson(messageXML, {
+                  const messageJSON = formatMessage(replaceKeys(parser.toJson(messageXML, {
                     object: true,
                     coerce: true,
                     reversible: false
-                  }));
-                  this.emit('message', messageJSON);
+                  })));
 
-                  if (messageJSON.Pport.uR.TS) {
-                    this.emit('trainStatus', {
-                      status: messageJSON.Pport.uR.TS,
-                      timestamp: messageJSON.Pport.ts
-                    });
-                  } else if (messageJSON.Pport.uR.schedule) {
-                    this.emit('schedule', {
-                      schedule: messageJSON.Pport.uR.schedule,
-                      timestamp: messageJSON.Pport.ts
-                    });
-                  }
+                  this.emit('message', messageJSON);
+                  this.emit(messageJSON.type, messageJSON);
                 });
 
                 messageStream.on('error', (error) => {
