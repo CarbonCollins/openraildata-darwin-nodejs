@@ -1,6 +1,6 @@
 {
   "name": "openraildata-pushport",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "A node package for accessing National Rail Push Port data over STOMP to provide",
   "license": "MIT",
   "keywords": [

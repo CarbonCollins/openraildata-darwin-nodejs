@@ -14,4 +14,58 @@ A Node.JS package which connects to National Rail's push port data system to pro
 
 ## Installation
 
-	npm install openraildata-pushport
+```
+npm install openraildata-pushport
+```
+
+## Example
+
+``` 
+const PushPort = require('openraildata-pushport');
+const pushPort = new PushPort('QUEUE_NAME_HERE');
+
+pushPort.connect().then((client) => {
+
+  // event for all message types
+  client.on('message', (message) => {
+    // do something with received message
+  });
+
+  // event for train status messages
+  client.on('trainStatus', (message) => {
+    // do something with the train status message
+  });
+
+  // event for schedule messages
+  client.on('schedule', (message) => {
+    // do something with the schedule message
+  });
+
+  // event for error handling
+  client.on('error', (error, header) => {
+    console.error(error);
+    // or any other message error handling you require
+  })
+
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+example message
+```
+{
+	type: 'trainStatus',
+	message: { /* xml to json converted message */ },
+	timestamp: /* timestamp of when message sent */
+}
+```
+
+## Event types
+
+There are currently only 4 event types which are detailed below:
+
+* **'message'** - An event for all incomming messages from the PushPort server
+* **'trainStatus'** - An event for all incomming train status messages from the PushPort server
+* **'schedule'** - An event for all incomming train status messages from the PushPort server
+* **'error'** - An event for all message errors
