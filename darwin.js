@@ -10,10 +10,37 @@
 
 const stompit = require('stompit');
 const zlib = require('zlib');
+const EventEmitter = require('events');
+const parser = require('xml2json');
 
+class DarwinEvents extends EventEmitter {}
+const darwinEvents = new DarwinEvents();
+
+/**
+ * @method replaceKeys
+ * @param {object} jsonObj 
+ */
+function replaceKeys(jsonObj) {
+  let jsonString = JSON.stringify(jsonObj);
+  jsonString = jsonString
+      .replace(/\"ns3\:Location\"/g, '\"locations\"')
+      .replace(/\"ns\d\:/g, '\"');
+  return JSON.parse(jsonString);
+}
+
+/**
+ * @class darwinClient
+ * @param {string} something
+ */
 class darwinClient {
-  constructor() {
-    this.credentials = {
+  /**
+   * @constructor
+   * @param {boolean} [convertToJSON=true] - Should the xml messages be converted into JSON on 'message' events
+   */
+  constructor(convertToJSON) {
+    this.convertToJson = convertToJSON || true;
+    this.stompClient = null;
+    this.stompCredentials = {
       host: 'datafeeds.nationalrail.co.uk',
       port: 61613,
       connectHeaders: {
@@ -23,150 +50,142 @@ class darwinClient {
         'heart-beat': '5000,5000'
       }
     };
-    this.client = null;
   }
 
   /**
-   * Connects to the DARWIN server
-   * @callback(err) - callback returns one parameter, intended for
-   * error returns (Not implemented yet)
+   * Connects to the DARWIN server.
+   * 
+   * @method connect
+   * @param {connectCallback} callback - The callback that handles the response.
+   * @return undefined
    */
   connect(callback) {
-    if (this.client === null) {
-      stompit.connect(this.credentials, (err, client) => {
+    const cb = (typeof callback == 'function') ? callback : (() => {});
+    if (this.stompClient === null) {
+      stompit.connect(this.stompCredentials, (err, stompClient) => {
         if (err) {
-          callback(err);
+          cb(err);
           return;
         }
-        this.client = client;
-        callback(null);
+        this.stompClient = stompClient;
+        cb(null, darwinEvents);
       });
     } else {
-      callback(new Error('STOMP client was already initialised'));
+      cb(new Error('STOMP client was already initialised'));
     }
   }
 
   /**
    * Discnnects from DARWIN server.
    *
-   * @timeout - used to specify an amount of time in ms before disconnecting.
-   * @callback(err) - callback returns one parameter, intended for
-   * error returns (Not implemented yet)
+   * @method disconnect
+   * @param {number} [timeout=0] - used to specify an amount of time in ms before disconnecting.
+   * @param {disconnectCallback} callback - The callback that handles the response.
+   * @return undefined
    */
   disconnect(timeout, callback) {
-    const time = timeout || 0;
-    if (this.client !== null) {
+    const cb = ((typeof timeout == 'function') ? timeout : callback) || (() => {});
+    const time = ((typeof timeout == 'function') ? 0 : timeout) || 0;
+    if (this.stompClient !== null) {
       setTimeout(() => {
-        this.client.disconnect((err) => {
+        this.stompClient.disconnect((err) => {
           if (err) {
-            this.client.destroy();
+            this.stompClient.destroy();
           }
-          this.client = null;
-          if (typeof callback === 'function') {
-            callback(err);
-          } else if (typeof timeout === 'function') {
-            timeout(err);
-          }
+          this.stompClient = null;
+          cb(err);
         });
-      }, ((typeof timeout === 'function') ? 0 : time));
-    } else if (typeof callback === 'function') {
-      callback(null);
-    } else if (typeof timeout === 'function') {
-      timeout(null);
+      }, time);
+    } else {
+      cb(null);
     }
   }
 
+
   /**
    * Subscribes to a queue as long as the class is connected to the DARWIN server.
-   *
-   * @queueName - The topic name to connect to (this is then prepended to /queue/).
-   * @callback(err, message) - Callback returns two parameters, an error and a message body.
+   * 
+   * @method subscribe
+   * @param {string} queueName - The topic name to connect to (this is then prepended to /queue/).
+   * @return undefined
    */
-  subscribe(queueName, callback) {
-    if (this.client !== null) {
+  subscribe(queueName) {
+    if (this.stompClient !== null) {
       if (typeof queueName === 'string' && queueName !== '') {
         const subHeaders = {
           destination: `/queue/${queueName}`,
           ack: 'auto'
         };
-        this.client.subscribe(subHeaders, (err, message) => {
+        const convertToJSON = this.convertToJson;
+        this.stompClient.subscribe(subHeaders, (err, message) => {
           message.on('readable', () => {
-            let chunk;
-            while (null !== (chunk = message.read())) {
-              zlib.gunzip(chunk, (error, response) => {
-                if (error) {
-                  console.log(message.headers);
-                  console.log(error);
-                } else {
-                  console.log(message.headers.FilterHeaderLevel);
-                  console.log(response.toString());
-                }
-              });
-            }
+            const buffer = [];
+            const messageStream = zlib.createGunzip();
+            messageStream.setEncoding('utf8');
+
+            messageStream.on('data', function(data) {
+                buffer.push(data);
+            });
+            
+            messageStream.on("end", function() {
+              const messageXML = buffer.join("");
+              const messageJSON = replaceKeys(parser.toJson(messageXML, { object: true, coerce: true, reversible: false }));
+              darwinEvents.emit('message', (convertToJSON) ? messageJSON : messageXML);
+
+              // switch (messageJSON.Pport.uR.updateOrigin) {
+              //   case 'Darwin':
+                  if (messageJSON.Pport.uR.TS) {
+                    darwinEvents.emit('status', {
+                      status: messageJSON.Pport.uR.TS,
+                      timestamp: messageJSON.Pport.ts
+                    });
+                  } else if (messageJSON.Pport.uR.schedule) {
+                    darwinEvents.emit('schedule', {
+                      schedule: messageJSON.Pport.uR.schedule,
+                      timestamp: messageJSON.Pport.ts
+                    });
+                  }
+              //     break;
+              //   default:
+              // }
+            });
+            
+            messageStream.on("error", function(error) {
+              if (buffer.length > 0) { // check if empty message
+                darwinEvents.emit('error', error, message.headers);
+              }
+            });
+
+            message.pipe(messageStream);
           });
 
-          message.on('end', () => {
-            this.client.ack(message);
-          });
-
-          // needs to support gzip data
-          // message.readString('utf-8', (er, body) => {
-          //   console.log(body);
-          //   callback(er, JSON.parse(body));
+          /* Currently having issues with sending ACK */
+          // message.on('end', () => {
+          //   this.stompClient.ack(message);
           // });
         });
       } else {
-        callback(new Error('Queue name must be a string and not empty'));
+        darwinEvents.emit('error', new Error('Queue name must be a string and not empty'));
       }
     } else {
-      callback(new Error('Unable to subscribe. Not connected to the DARWIN server.'));
+      darwinEvents.emit('error', new Error('Unable to subscribe. Not connected to the DARWIN server.'));
     }
   }
 }
 
 module.exports = darwinClient;
 
+/**
+ * This callback is displayed as part of the connect function.
+ * @callback connectCallback
+ * @param {object} error
+ * @param {object} client - An event object required to listen to incomming events after connection
+ * @return undefined
+ */
 
-
-
-/*
-stompit.connect(connectOptions, function(error, client) {
-
-    if(error){
-        console.log('Unable to connect: ' + error.message);
-        return;
-    }
-
-    const subscribeParams = {
-        'destination': '/queue/QUEUE_NAME_HERE',
-        'ack': 'client-individual'
-    };
-
-
-    client.subscribe(subscribeParams, function(error, message){
-
-        const read = function(){
-            let chunk;
-            while(null !== (chunk = message.read())){
-                zlib.gunzip(chunk, function (error, response) {
-
-                    if (error) {
-                        console.log(message.headers)
-                        console.log(error)
-                    } else {
-                        console.log(message.headers.FilterHeaderLevel)
-                        console.log(response.toString());
-                    }
-                });
-            }
-        };
-
-        message.on('readable', read);
-
-        message.on('end', function(){
-            client.ack(message);
-        });
-    });
-});
-
-*/
+/**
+ * This callback is displayed as part of the disconnect function.
+ * @callback disconnectCallback
+ * @param {object} error
+ * @return undefined
+ */
