@@ -3,6 +3,8 @@
 const expect = require('chai').expect;
 const Darwin = require('../index');
 
+require('dotenv').config();
+
 describe('openraildata-darwin tests', () => {
   describe('Environment check', () => {
     it('Expect a valid "QUEUE" enviroment variable', () => {
