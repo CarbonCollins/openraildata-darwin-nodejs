@@ -202,13 +202,11 @@ class PushPort {
     return new Promise((resolve, reject) => {
       if (this.client === null) {
         if (this.queue && this.queue !== '') {
-          this.client = new StompClient(this.queue);
+          this.client = new StompClient();
           this.client.connect().then(() => {
-            this.client.subscribe(this.queue).then(() => {
-              resolve(this.client);
-            }).catch((err) => {
-              reject(err);
-            });
+            return this.client.subscribe(this.queue);
+          }).then(() => {
+            resolve(this.client);
           }).catch((err) => {
             reject(err);
           });
@@ -242,3 +240,6 @@ class PushPort {
 }
 
 module.exports = PushPort;
+module.exports.PushPort = PushPort;
+module.exports.credentials = credentials;
+module.exports.StompClient = StompClient;

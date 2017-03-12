@@ -14,7 +14,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha ./tests/client.js --reporter spec"
+    "test": "./node_modules/.bin/mocha ./tests/all.js"
   },
   "author": {
     "name": "Steven Collins",
