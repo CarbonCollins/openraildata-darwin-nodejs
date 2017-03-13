@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": "airbnb-base",
   "env": {
     "node": true,
     "mocha": true
@@ -16,6 +16,7 @@
     "comma-dangle": 0,
     "jsx-quotes": [ 2, "prefer-double" ],
     "no-param-reassign": [ 2, { "props": false } ],
-    "import/no-extraneous-dependencies": [2, { "devDependencies": true } ]
+    "import/no-extraneous-dependencies": [2, { "devDependencies": true } ],
+    "strict": [0, "global"]
   }
 }

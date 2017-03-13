@@ -1,25 +1,29 @@
 {
-  "name": "openraildata-dawrin",
-  "version": "0.1.3",
-  "description": "A node package for accessing National Rail DARWIN data",
+  "name": "openraildata-darwin",
+  "version": "1.0.0",
+  "description": "A node package for accessing National Rail DARWIN:PushPort data over STOMP to provide",
   "license": "MIT",
   "keywords": [
     "openraildata",
     "open",
     "rail",
-    "National",
-    "trust"
+    "national",
+    "push",
+    "port",
+    "stomp",
+    "darwin"
   ],
-  "main": "darwin.js",
+  "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "./node_modules/.bin/mocha ./tests/all.js"
   },
   "author": {
     "name": "Steven Collins",
     "git": "https://github.com/CarbonCollins"
   },
   "dependencies": {
-    "stompit": "^0.23.0"
+    "stompit": "^0.23.0",
+    "xml2json": "^0.11.0"
   },
   "repository": {
     "type": "git",
@@ -33,7 +37,13 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "dotenv": "^2.0.0",
+    "dotenv": "^4.0.0",
     "mocha": "^3.1.0"
+  },
+  "optionalDependencies": {
+    "eslint": "^3.8.0",
+    "babel-eslint": "^6.1.2",
+    "eslint-config-airbnb-base": "^9.0.0",
+    "eslint-plugin-import": "^2.0.1"
   }
 }
