@@ -1,24 +1,24 @@
 /**
- * Name:    openraildata-pushport example useage
+ * Name:    openraildata-darwin example useage
  * Author:  Steven Collins (https://github.com/CarbonCollins)
  * Date:    Sunday 12th March 2017
  *
- * Desc:    Example use of the openraildata-pushport package.
+ * Desc:    Example use of the openraildata-darwin package.
  *          This package uses promises and events to pass data.
  */
 
 'use strict';
 
-const PushPort = require('../index');
+const Darwin = require('../index');
 
 // recomended to put queue name into environment file
 require('dotenv').config();
 
 // Initialise the client by passing the queue name into a new instance.
-const pushPort = new PushPort(process.env.QUEUE);
+const darwin = new Darwin(process.env.QUEUE);
 
-// Connect to PushPort server which will return a client object on success and an error on failure
-pushPort.connect().then((client) => {
+// Connect to DARWIN:PushPort server which will return a client object on success and an error on failure
+darwin.connect().then((client) => {
 
   // 'message' event will receive all incomming messages converted into JSON
   client.on('message', (message) => {

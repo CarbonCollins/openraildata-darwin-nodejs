@@ -1,10 +1,10 @@
 /**
- * Name:    openraildata-pushport
+ * Name:    openraildata-darwin
  * Author:  Steven Collins (https://github.com/CarbonCollins)
  * Date:    Sunday 12th March 2017
  *
- * Git:     https://github.com/CarbonCollins/openraildata-pushport
- * Desc:    Connects to National Rails Push Port data system to provide real-time
+ * Git:     https://github.com/CarbonCollins/openraildata-darwin
+ * Desc:    Connects to National Rails DARWIN:PushPort data system to provide real-time
  *          information such as train prediction data within the UK.
  *
  */
@@ -17,7 +17,7 @@ const EventEmitter = require('events');
 const parser = require('xml2json');
 
 /**
- * @type {object} credentials The connection credentials used to connect to PushPort servers.
+ * @type {object} credentials The connection credentials used to connect to DARWIN:PushPort servers.
  */
 const credentials = {
   host: 'datafeeds.nationalrail.co.uk',
@@ -199,7 +199,7 @@ class PushPort {
   }
 
   /**
-   * Connects to the National Rail PushPort server.
+   * Connects to the National Rail DARWIN:PushPort server.
    *
    * @method connect
    * @return {Promise} A promise with {@link StompClient} if resolved, otherwise {@link Error}
@@ -226,7 +226,7 @@ class PushPort {
   }
 
   /**
-   * Disconnects from the National Rail PushPort server.
+   * Disconnects from the National Rail DARWIN:PushPort server.
    *
    * @method disconnect
    * @return {Promise} A promise with {@link StompClient}

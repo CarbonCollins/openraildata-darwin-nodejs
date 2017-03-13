@@ -1,13 +1,13 @@
 openraildata-pushport
 ===========
 
-[![Travis](https://img.shields.io/travis/CarbonCollins/openraildata-pushport.svg?style=flat-square)](https://travis-ci.org/CarbonCollins/openraildata-pushport)
-[![npm](https://img.shields.io/npm/v/openraildata-pushport.svg?style=flat-square)](https://www.npmjs.com/package/openraildata-pushport)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/CarbonCollins/openraildata-pushport/master/LICENSE)
+[![Travis](https://img.shields.io/travis/CarbonCollins/openraildata-darwin.svg?style=flat-square)](https://travis-ci.org/CarbonCollins/openraildata-darwin)
+[![npm](https://img.shields.io/npm/v/openraildata-darwin.svg?style=flat-square)](https://www.npmjs.com/package/openraildata-darwin)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/CarbonCollins/openraildata-darwin/master/LICENSE)
 [![sheilds](https://img.shields.io/badge/status-WIP-yellow.svg?style=flat-square)](https://img.shields.io/badge/status-WIP-yellow.svg)
 
 
-A Node.JS package which connects to National Rail's push port data system to provide information on the UK rail network.
+A Node.JS package which connects to National Rail's DARWIN:PushPort data system to provide information on the UK rail network.
 
 
 *WIP*
@@ -15,16 +15,16 @@ A Node.JS package which connects to National Rail's push port data system to pro
 ## Installation
 
 ```
-npm install openraildata-pushport
+npm install openraildata-darwin
 ```
 
 ## Example
 
 ``` 
-const PushPort = require('openraildata-pushport');
-const pushPort = new PushPort('QUEUE_NAME_HERE');
+const Darwin = require('openraildata-darwin');
+const darwin = new Darwin('QUEUE_NAME_HERE');
 
-pushPort.connect().then((client) => {
+darwin.connect().then((client) => {
 
   // event for all message types
   client.on('message', (message) => {
