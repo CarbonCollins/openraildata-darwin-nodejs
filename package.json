@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "openraildata-common": "^1.4.0",
-    "stompit": "^0.23.0",
+    "stompit": "^0.25.0",
     "xml2json": "^0.11.0"
   },
   "repository": {
@@ -37,14 +37,9 @@
     "node": ">= 0.10"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "dotenv": "^4.0.0",
-    "eslint": "^3.8.0",
-    "eslint-plugin-import": "^2.7.0",
     "gulp": "^3.9.1",
     "gulp-jsdoc-to-markdown": "^1.2.2",
     "gulp-rename": "^1.2.2",
-    "gulp-util": "^3.0.8",
-    "mocha": "^3.1.0"
+    "gulp-util": "^3.0.8"
   }
 }
