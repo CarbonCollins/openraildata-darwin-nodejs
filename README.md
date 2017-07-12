@@ -1,10 +1,11 @@
 openraildata-darwin
 ===========
-
-[![Travis](https://travis-ci.org/CarbonCollins/openraildata-darwin.svg?style=flat-square&branch=release)](https://travis-ci.org/CarbonCollins/openraildata-darwin)
-[![npm](https://img.shields.io/npm/v/openraildata-darwin.svg?style=flat-square)](https://www.npmjs.com/package/openraildata-darwin)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/CarbonCollins/openraildata-darwin/master/LICENSE)
-[![sheilds](https://img.shields.io/badge/status-WIP-yellow.svg?style=flat-square)](https://img.shields.io/badge/status-WIP-yellow.svg)
+[![GitHub issues](https://img.shields.io/github/issues/CarbonCollins/openraildata-darwin.svg)](https://github.com/CarbonCollins/openraildata-darwin/issues)
+[![npm](https://img.shields.io/npm/v/openraildata-darwin.svg)](https://www.npmjs.com/package/openraildata-darwin)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/CarbonCollins/openraildata-darwin/master/LICENSE)
+[![David](https://img.shields.io/david/CarbonCollins/openraildata-darwin.svg)]()
+[![David](https://img.shields.io/david/dev/CarbonCollins/openraildata-darwin.svg)]()
+[![sheilds](https://img.shields.io/badge/status-WIP-yellow.svg)](https://img.shields.io/badge/status-WIP-yellow.svg)
 
 
 A Node.JS package which connects to National Rail's DARWIN:PushPort data system to provide information on the UK rail network.
