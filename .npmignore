@@ -28,3 +28,5 @@ jspm_packages
 .vscode
 
 .env
+
+tests/dev.js

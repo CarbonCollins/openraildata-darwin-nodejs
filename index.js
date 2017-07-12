@@ -95,6 +95,9 @@ class StompClient extends EventEmitter {
           reject(err);
         } else {
           this.stompClient = stompClient;
+          this.stompClient.on('error', (err) => {
+            console.error(err);
+          });
           resolve();
         }
       });
