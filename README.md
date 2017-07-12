@@ -1,5 +1,5 @@
 # openraildata-darwin
-===========
+
 [![GitHub issues](https://img.shields.io/github/issues/CarbonCollins/openraildata-darwin.svg)](https://github.com/CarbonCollins/openraildata-darwin/issues)
 [![npm](https://img.shields.io/npm/v/openraildata-darwin.svg)](https://www.npmjs.com/package/openraildata-darwin)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/CarbonCollins/openraildata-darwin/master/LICENSE)
