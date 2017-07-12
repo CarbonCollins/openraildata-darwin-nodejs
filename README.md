@@ -1,4 +1,4 @@
-openraildata-darwin
+# openraildata-darwin
 ===========
 [![GitHub issues](https://img.shields.io/github/issues/CarbonCollins/openraildata-darwin.svg)](https://github.com/CarbonCollins/openraildata-darwin/issues)
 [![npm](https://img.shields.io/npm/v/openraildata-darwin.svg)](https://www.npmjs.com/package/openraildata-darwin)
@@ -7,66 +7,46 @@ openraildata-darwin
 [![David](https://img.shields.io/david/dev/CarbonCollins/openraildata-darwin.svg)]()
 [![sheilds](https://img.shields.io/badge/status-WIP-yellow.svg)](https://img.shields.io/badge/status-WIP-yellow.svg)
 
+# usage
 
-A Node.JS package which connects to National Rail's DARWIN:PushPort data system to provide information on the UK rail network.
+To use the openraildata-darwin package you first need an account on [National Rails data feeds](https://datafeeds.nationalrail.co.uk/). Once you have an account you can run the examples below:
+
+## installation
+1. install [npm](https://nodejs.org "npm homepage")
+2. `npm install openraildata-darwin --save`
+
+## table of contents
+- [getting started](#getting-started)
+- [package docs](#package-docs)
+- [dev notes](#dev-notes)
 
 
-*WIP*
+## getting started
 
-## Installation
+this package connects with the National Rails DARWIN PushPort server to access real time train alerts and messaging on the UK rail network. All connection and message processing is managed by this package and the results are outputed into JS Object format in the form of an event.
+
+an example for using this package to get train status messages from DARWIN PushPort:
 
 ```
-npm install openraildata-darwin
-```
-
-## Example
-
-``` 
 const Darwin = require('openraildata-darwin');
-const darwin = new Darwin('QUEUE_NAME_HERE');
 
-darwin.connect().then((client) => {
+const client = new Darwin();
 
-  // event for all message types
-  client.on('message', (message) => {
-    // do something with received message
-  });
-
-  // event for train status messages
-  client.on('trainStatus', (message) => {
-    // do something with the train status message
-  });
-
-  // event for schedule messages
-  client.on('schedule', (message) => {
-    // do something with the schedule message
-  });
-
-  // event for error handling
-  client.on('error', (error, header) => {
-    console.error(error);
-    // or any other message error handling you require
-  })
-
-}).catch((err) => {
-  console.error(err);
+client.on('trainStatus', (status) => {
+  console.log(status);
 });
+
+client.connect(queueName);
 ```
 
-example message
-```
-{
-	type: 'trainStatus',
-	message: { /* xml to json converted message */ },
-	timestamp: /* timestamp of when message sent */
-}
-```
+## package docs
 
-## Event types
+[Darwin docs](./docs/darwin.md)
 
-There are currently only 4 event types which are detailed below:
+## dev notes
 
-* **'message'** - An event for all incomming messages from the PushPort server
-* **'trainStatus'** - An event for all incomming train status messages from the PushPort server
-* **'schedule'** - An event for all incomming train status messages from the PushPort server
-* **'error'** - An event for all message errors
+Hi :D
+
+this package is being coded while im experimenting so feel free to use it however it may change at any moment. I'm publishing it as i go so not all features will be there.
+
+I'm generaly only working on this while im sat on the train too and from my day job so this may take a while
