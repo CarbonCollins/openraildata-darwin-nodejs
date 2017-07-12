@@ -1,3 +1,31 @@
+## Classes
+
+<dl>
+<dt><a href="#Darwin">Darwin</a></dt>
+<dd><p>a service for connecting and communicating with the National Rail Darwin PushPort server</p>
+</dd>
+</dl>
+
+## External
+
+<dl>
+<dt><a href="#external_Schedule">Schedule</a></dt>
+<dd><p>Schedule data class</p>
+</dd>
+<dt><a href="#external_Association">Association</a></dt>
+<dd><p>Association data class</p>
+</dd>
+<dt><a href="#external_TrainOrder">TrainOrder</a></dt>
+<dd><p>TrainOrder data class</p>
+</dd>
+<dt><a href="#external_StationMessage">StationMessage</a></dt>
+<dd><p>StationMessage data class</p>
+</dd>
+<dt><a href="#external_TrainStatus">TrainStatus</a></dt>
+<dd><p>TrainStatus data class</p>
+</dd>
+</dl>
+
 <a name="Darwin"></a>
 
 ## Darwin
@@ -93,3 +121,38 @@ connects to the Darwin server and subscribes to a specified queue
 | --- | --- | --- |
 | queue | <code>string</code> | the queue to subscribe to |
 
+<a name="external_Schedule"></a>
+
+## Schedule
+Schedule data class
+
+**Kind**: global external  
+**See**: [Schedule](https://github.com/CarbonCollins/openraildata-common-nodejs/blob/HEAD/docs/schedule.md)  
+<a name="external_Association"></a>
+
+## Association
+Association data class
+
+**Kind**: global external  
+**See**: [Association](https://github.com/CarbonCollins/openraildata-common-nodejs/blob/HEAD/docs/association.md)  
+<a name="external_TrainOrder"></a>
+
+## TrainOrder
+TrainOrder data class
+
+**Kind**: global external  
+**See**: [TrainOrder](https://github.com/CarbonCollins/openraildata-common-nodejs/blob/HEAD/docs/trainOrder.md)  
+<a name="external_StationMessage"></a>
+
+## StationMessage
+StationMessage data class
+
+**Kind**: global external  
+**See**: [StationMessage](https://github.com/CarbonCollins/openraildata-common-nodejs/blob/HEAD/docs/stationMessage.md)  
+<a name="external_TrainStatus"></a>
+
+## TrainStatus
+TrainStatus data class
+
+**Kind**: global external  
+**See**: [TrainStatus](https://github.com/CarbonCollins/openraildata-common-nodejs/blob/HEAD/docs/trainStatus.md)  
