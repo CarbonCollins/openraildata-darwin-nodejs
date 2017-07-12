@@ -1,18 +1,3 @@
-## Classes
-
-<dl>
-<dt><a href="#Darwin">Darwin</a></dt>
-<dd><p>a service for connecting and communicating with the National Rail Darwin PushPort server</p>
-</dd>
-</dl>
-
-## Functions
-
-<dl>
-<dt><a href="#replaceKeys">replaceKeys(jsonObj)</a> ⇒ <code>object</code></dt>
-<dd></dd>
-</dl>
-
 <a name="Darwin"></a>
 
 ## Darwin
@@ -107,14 +92,4 @@ connects to the Darwin server and subscribes to a specified queue
 | Param | Type | Description |
 | --- | --- | --- |
 | queue | <code>string</code> | the queue to subscribe to |
-
-<a name="replaceKeys"></a>
-
-## replaceKeys(jsonObj) ⇒ <code>object</code>
-**Kind**: global function  
-**Returns**: <code>object</code> - An object with 'ns0:' tags removed from key names and some renamed.  
-
-| Param | Type |
-| --- | --- |
-| jsonObj | <code>object</code> | 
 
