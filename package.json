@@ -1,6 +1,6 @@
 {
   "name": "openraildata-darwin",
-  "version": "2.0.3",
+  "version": "2.0.6",
   "description": "A node package for accessing National Rail DARWIN:PushPort data over STOMP to provide",
   "license": "MIT",
   "keywords": [
@@ -13,9 +13,9 @@
     "stomp",
     "darwin"
   ],
-  "main": "index.js",
+  "main": "lib/darwin.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha ./tests/all.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
     "name": "Steven Collins",
