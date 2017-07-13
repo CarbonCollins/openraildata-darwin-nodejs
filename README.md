@@ -1,10 +1,10 @@
 # openraildata-darwin
 
-[![GitHub issues](https://img.shields.io/github/issues/CarbonCollins/openraildata-darwin.svg)](https://github.com/CarbonCollins/openraildata-darwin/issues)
+[![GitHub issues](https://img.shields.io/github/issues/CarbonCollins/openraildata-darwin-nodejs.svg)](https://github.com/CarbonCollins/openraildata-darwin-nodejs/issues)
 [![npm](https://img.shields.io/npm/v/openraildata-darwin.svg)](https://www.npmjs.com/package/openraildata-darwin)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/CarbonCollins/openraildata-darwin/master/LICENSE)
-[![David](https://img.shields.io/david/CarbonCollins/openraildata-darwin.svg)]()
-[![David](https://img.shields.io/david/dev/CarbonCollins/openraildata-darwin.svg)]()
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/CarbonCollins/openraildata-darwin-nodejs/master/LICENSE)
+[![David](https://img.shields.io/david/CarbonCollins/openraildata-darwin-nodejs.svg)]()
+[![David](https://img.shields.io/david/dev/CarbonCollins/openraildata-darwin-nodejs.svg)]()
 [![sheilds](https://img.shields.io/badge/status-WIP-yellow.svg)](https://img.shields.io/badge/status-WIP-yellow.svg)
 
 # usage
