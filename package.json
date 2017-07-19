@@ -1,6 +1,6 @@
 {
   "name": "openraildata-darwin",
-  "version": "2.0.9",
+  "version": "2.1.0",
   "description": "A node package for accessing National Rail DARWIN:PushPort data over STOMP to provide",
   "license": "MIT",
   "keywords": [
@@ -22,7 +22,7 @@
     "git": "https://github.com/CarbonCollins"
   },
   "dependencies": {
-    "openraildata-common": "^1.5.1",
+    "openraildata-common": "^1.6.0",
     "stompit": "^0.25.0",
     "xml2json": "^0.11.0"
   },
